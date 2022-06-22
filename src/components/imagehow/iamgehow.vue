@@ -1,12 +1,13 @@
 <template>
 <div class="imageshow">
-    <img :src="imgParams.url" :height="imgParams.height" :width="imgParams.width" @click="showBigImg()">
+    <img :src="imgParams.url" :height="imgParams.height" :width="imgParams.width" @click="showBigImg()" style="cursor: pointer">
     <template v-if="bigImg.show">
         <div class="bigImgPanel">
-        <img :src="bigImg.url">
+        <div class="bigImgBg">
+       <img :src="bigImg.url" class="bigImg">
+        </div>
         </div>
     </template>
-
 </div>
   
 </template>
@@ -58,14 +59,27 @@ export default {
 
 <style lang="less" scoped>
 .imageshow{
-    cursor: pointer;
-
 .bigImgPanel{
     position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
     height: 100%;
     width: 100%;
     z-index: 10001;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background: rgba(42, 42, 42, 0.592);
+    .bigImgBg{
+            position: relative;
+    .bigImg{
+        height: 720px;
+        width: 1280px;
+    }
+    }
+
 }
 }
 </style>

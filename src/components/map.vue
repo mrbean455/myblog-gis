@@ -17,6 +17,7 @@ components:{LeftPanel},
       coords:[{coord:{lat:0.010524613472941513,lng:0.01630783081054688},date:"2022-06-22",url:"/markericon/test1.jpg"}
       ,{coord:{lat:0.010759327693997187,lng:0.029788613319396976},date:"2022-06-22",url:"/markericon/test1.jpg"}],
       map: null,
+      mapBounds:[[0.024719237514403372,0.00042915344238281255],[0.024719237514403372,0.03334522247314454],[0.0002145767211831047,0.00042915344238281255],[0.0002145767211831047,0.03338813781738282]],
       mapCenter:[0.0116046894120897,0.0116046894120897],
       markerLayer:this.L.layerGroup(),
       showPanel:false,
@@ -29,8 +30,11 @@ components:{LeftPanel},
       this.map = this.L.map("map", {
       center:this.mapCenter,
       crs:this.L.CRS.EPSG3857,
-      minZoom:1,
+      maxBounds:this.mapBounds,
+      maxBoundsViscosity:0.7,
+      minZoom:16,
       maxZoom:18,
+      zoomControl:false
       });
       //设置地图的地图
       let url = "/dbgmap/dbg2map_225773205_256X256_PNG.mbtiles";

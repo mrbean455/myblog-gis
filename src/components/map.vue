@@ -2,7 +2,7 @@
   <div>
     <div id="map" class="map"></div>
     <div v-if="showPanel">
-        <leftPanel :panelInfo="this.panelContent"></leftPanel>
+        <leftPanel :panelInfo="this.panelContent" @closePanel="closePanel()"></leftPanel>
     </div>
 
   </div>
@@ -14,14 +14,14 @@ export default {
 components:{LeftPanel},
   data() {
     return {
-      coords:[{coord:{lat:0.010524613472941513,lng:0.01630783081054688},date:"2022-06-22",url:"/markericon/test1.jpg"}
-      ,{coord:{lat:0.010759327693997187,lng:0.029788613319396976},date:"2022-06-22",url:"/markericon/test1.jpg"}],
+      coords:[{id:"0001",coord:{lat:0.010524613472941513,lng:0.01630783081054688},date:"2022-06-22",url:"/markericon/test1.jpg",info:{type:"picture",location:'草莓镇',introduce:'草莓镇的夜晚'}}
+      ,{id:"0002",coord:{lat:0.010759327693997187,lng:0.029788613319396976},date:"2022-06-22",url:"/markericon/test2.jpg",info:{type:"npc",location:'圣丹尼斯',work:'交易',name:'xxx'}}],
       map: null,
       mapBounds:[[0.024719237514403372,0.00042915344238281255],[0.024719237514403372,0.03334522247314454],[0.0002145767211831047,0.00042915344238281255],[0.0002145767211831047,0.03338813781738282]],
       mapCenter:[0.0116046894120897,0.0116046894120897],
       markerLayer:this.L.layerGroup(),
       showPanel:false,
-      panelContent:{},
+      panelContent:null,
     };
   },
   methods: {
@@ -56,8 +56,17 @@ components:{LeftPanel},
         })
     },
     openPanel(marker){
-      this.panelContent=marker;
-      this.showPanel=!this.showPanel;
+      if(this.panelContent==null||this.panelContent.id==marker.id){
+        console.log(1)
+        this.panelContent = this.panelContent==null?marker:null;
+        this.showPanel = !this.showPanel;
+      }else if(this.panelContent.id!=marker.id){
+        this.panelContent =marker;
+      }
+    },
+    closePanel(){
+      this.showPanel = !this.showPanel;
+      this.panelContent =null;
     }
   },
   mounted() {

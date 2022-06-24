@@ -7,26 +7,17 @@
     </div>
     <div class="panelDetail">
         <div class="info">
-            <template v-if="info.info.type=='npc'">
-            <div>姓名:{{info.info.name}}</div>
-            <div>类型:{{info.info.type}}</div>
-            <div>位置:{{info.info.location}}</div>
-            <div>功能:{{info.info.work}}</div>
-            </template>
-            <template v-else-if="info.info.type=='picture'">
-            <div>类型:{{info.info.type}}</div>
-            <div>位置:{{info.info.location}}</div>
-            <div>描述:{{info.info.introduce}}</div>
-            </template>
-
+            <div v-if="info.type=='npc'">姓名:{{info.name}}</div>
+            <div>类型:{{info.type=='npc'?info.type:info.type=="picture"?"摄影":""}}</div>
+            <div>功能:{{info.introduce}}</div>
         </div>
-        <div class="date">{{info.date}}</div>
+        <div class="location"><span>{{info.location}}</span></div>
     </div>
   </div>
 </template>
 
 <script>
-import Imageshow from "./imagehow/iamgehow.vue"
+import Imageshow from "./imageshow/iamgeshow.vue"
 export default {
     components:{Imageshow},
     props:['panelInfo'],
@@ -59,14 +50,16 @@ export default {
 
 <style lang="less" scoped>
 .leftPanel{
+    box-sizing: border-box;
    height: 96%;
    width: 400px;
    position:absolute;
    z-index:1000;
+   padding:0 6px;
    display: flex;
    flex-direction: column;
    justify-content:left;
-    background: rgba(27, 27, 27, 0.879);
+    background: rgba(0, 0, 0, 0.963);
     .closePanel{
         position: relative;
         i{
@@ -87,11 +80,13 @@ export default {
     position: relative;
     height: 10%;
     width: 96%;
-    margin: 0 auto;
+    margin: 10px auto;
     line-height: 64px;
     text-align: center;
     font-size: 36px;
     color: #ccc9c9;
+    background-image: url('/sucai/border.png');
+    background-size: 100% 100%;
    }
    .panelPicture{
     height: 38%;
@@ -106,16 +101,17 @@ export default {
     flex-grow: 1;
     .info{
         height: 84%;
-        width: 100%;
         font-size: 20px;
-        margin: 0 10px
+        margin: 0 10px;
+        background:#7b797912;
     }
-    .date{
-        position: absolute;
-        right:6px;
+    .location{
+        position: relative;
+        text-align: center;
         bottom: 2px;
         height: 12%;
-        font-size: 22px;
+        font-size: 18px;
+        line-height: 52px;
     }
    }
 }

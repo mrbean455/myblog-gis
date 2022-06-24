@@ -12,10 +12,14 @@ import 'leaflet/dist/leaflet.css'
 //引入可以加载mbtiles的包
 import "leaflet-tilelayer-mbtiles"
 
+//引入二次封装的axios
+import request from "./utils/request"
+
 //引入leaflet默认的markerIcon
 // import './Myleaflet/icon'
 //把leaflet挂载到vue实例中，使得在vue中可以使用leaflet
-Vue.L=Vue.prototype.L=L
+Vue.L=Vue.prototype.L=L;
+Vue.prototype.$request = request;
 Vue.config.productionTip = false
 
 //使用ElementUI

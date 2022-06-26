@@ -42,9 +42,10 @@ components:{LeftPanel},
       //设置地图的地图
       let url = "/dbgmap/dbg2map_225773205_256X256_PNG.mbtiles";
       this.L.tileLayer.mbTiles(url).addTo(this.map)
-      this.map.setView([0.01052461,0.0163078], 14)
+      this.map.setView([0.0116046894120897,0.0116046894120897], 14)
       //将marker图层添加到地图中
       this.markerLayer.addTo(this.map)
+              const test = this.L.marker([0.01052461,0.0163078],{icon:this.L.divIconPlus({iconUrl:'sucai/markericon/zhaoxiang.png',size:20})}).addTo(this.markerLayer);
       this.loadData();
     },
     async loadData(){
@@ -58,7 +59,7 @@ components:{LeftPanel},
     },
     addPictureMarkers(){
       this.pictureList.forEach(item=>{
-        const marker = this.L.marker([item.lat,item.lng],{icon:this.L.divIcon({className :'el-icon-s-promotion'})});
+        const marker = this.L.marker([item.lat,item.lng],{icon:this.L.divIconplus({iconUrl:'./zhaoxiang.png',size:30})});
         marker.on('click',()=>{
           this.openPanel(item)
         })

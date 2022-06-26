@@ -12,6 +12,10 @@ import 'leaflet/dist/leaflet.css'
 //引入可以加载mbtiles的包
 import "leaflet-tilelayer-mbtiles"
 
+//引入封装的leaflet包
+import './leafletExtends/popupPlus'
+import "./leafletExtends/divIconPlus"
+
 //引入二次封装的axios
 import request from "./utils/request"
 

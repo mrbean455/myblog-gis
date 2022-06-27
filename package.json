@@ -10,6 +10,7 @@
   "dependencies": {
     "axios": "^0.27.2",
     "core-js": "^3.6.5",
+    "dayjs": "^1.11.3",
     "element-ui": "^2.15.9",
     "leaflet": "^1.8.0",
     "leaflet-tilelayer-mbtiles": "^1.4.1",
@@ -38,7 +39,7 @@
       "parser": "babel-eslint"
     },
     "rules": {
-      "no-unused-vars":"off"
+      "no-unused-vars": "off"
     }
   },
   "browserslist": [

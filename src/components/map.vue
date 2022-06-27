@@ -1,6 +1,7 @@
 <template>
   <div>
     <div id="map" class="map"></div>
+    <el-button @click="addLocation()" class="addLocationBtn">新增位置</el-button>
     <div v-if="showPanel">
         <leftPanel :panelInfo="this.panelContent" @closePanel="closePanel()"></leftPanel>
     </div>
@@ -10,7 +11,7 @@
 
 <script>
 import LeftPanel from "./leftpanel.vue";
-import zhaoxiang from "./zhaoxiang.png";
+import PopUpPanel from "./popuppanel/popupPanel.vue"
 export default {
 components:{LeftPanel},
   data() {
@@ -45,7 +46,6 @@ components:{LeftPanel},
       this.map.setView([0.0116046894120897,0.0116046894120897], 14)
       //将marker图层添加到地图中
       this.markerLayer.addTo(this.map)
-              const test = this.L.marker([0.01052461,0.0163078],{icon:this.L.divIconPlus({iconUrl:'sucai/markericon/zhaoxiang.png',size:20})}).addTo(this.markerLayer);
       this.loadData();
     },
     async loadData(){
@@ -59,7 +59,7 @@ components:{LeftPanel},
     },
     addPictureMarkers(){
       this.pictureList.forEach(item=>{
-        const marker = this.L.marker([item.lat,item.lng],{icon:this.L.divIconplus({iconUrl:'./zhaoxiang.png',size:30})});
+        const marker = this.L.marker([item.lat,item.lng],{icon:this.L.divIconPlus({iconUrl:'/sucai/markericon/zhaoxiang.png',size:18})});
         marker.on('click',()=>{
           this.openPanel(item)
         })
@@ -69,7 +69,7 @@ components:{LeftPanel},
     },
     addNpcMarkers(){
         this.npcList.forEach(item=>{
-        const marker = this.L.marker([item.lat,item.lng],{icon:this.L.divIcon({className :'el-icon-s-custom'})});
+        const marker = this.L.marker([item.lat,item.lng],{icon:this.L.divIconPlus({iconUrl:'/sucai/markericon/bushou.png',size:18})});
         marker.on('click',()=>{
           this.openPanel(item)
         })
@@ -89,7 +89,26 @@ components:{LeftPanel},
     closePanel(){
       this.showPanel = !this.showPanel;
       this.panelContent =null;
+    },
+    addLocation(){
+      const marker = this.L.marker([0.0116046894120897,0.0116046894120897],{icon:this.L.divIconPlus({size:18,iconClass:'el-icon-location-information'})});
+      this.map.on('mousemove',(e)=>{
+        marker.setLatLng([e.latlng.lat,e.latlng.lng]);
+        marker.addTo(this.map)
+      })
+      this.map.on('click',(e)=>{
+        this.map.off('mousemove');
+        marker.setLatLng([e.latlng.lat,e.latlng.lng]);
+        marker.popupPlus(PopUpPanel,{
+        props:{
+          lat:e.latlng.lat,
+          lng:e.latlng.lng
+        },
+      })
+      this.map.off('click')
+      })
     }
+
   },
   mounted() {
     this.initMap();
@@ -99,7 +118,7 @@ components:{LeftPanel},
 };
 </script>
 
-<style>
+<style lang="less" scoped>
 .map{
   position: absolute;
   top: 0%;
@@ -107,5 +126,10 @@ components:{LeftPanel},
   height: 100vh;
   width: 100%;
   background: #fff !important;
+}
+.addLocationBtn{
+  position: absolute;
+  z-index: 100000;
+  right: 6px;
 }
 </style>

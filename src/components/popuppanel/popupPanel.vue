@@ -15,6 +15,7 @@
       <el-option label="picture" value="picture"></el-option>
       <el-option label="npc" value="npc"></el-option>
       <el-option label="rate" value="rate"></el-option>
+      <el-option label="other" value="other"></el-option>
     </el-select>
   </el-form-item>
     <el-form-item label="介绍">

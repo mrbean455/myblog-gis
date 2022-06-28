@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id="map" class="map"></div>
-    <el-button @click="addLocation()" class="addLocationBtn">新增位置</el-button>
+    <!-- <el-button @click="addLocation()" class="addLocationBtn">新增位置</el-button> -->
     <div v-if="showPanel">
         <leftPanel :panelInfo="this.panelContent" @closePanel="closePanel()"></leftPanel>
     </div>
@@ -22,6 +22,7 @@ components:{LeftPanel},
       markerLayer:this.L.layerGroup(),
       pictureList:[],
       npcList:[],
+      otherList:[],
       pictureMarkers:null,
       npcMarkers:null,
       showPanel:false,
@@ -38,7 +39,7 @@ components:{LeftPanel},
       maxBoundsViscosity:0.7,
       minZoom:16,
       maxZoom:18,
-      zoomControl:false
+      zoomControl:false,
       });
       //设置地图的地图
       let url = "/dbgmap/dbg2map_225773205_256X256_PNG.mbtiles";
@@ -53,8 +54,10 @@ components:{LeftPanel},
         console.log(2)
         this.pictureList = data.picture;
         this.npcList =data.npc;
+        this.otherList =data.other;
         this.addPictureMarkers()
         this.addNpcMarkers()
+        this.addOtherMarkers();
       })
     },
     addPictureMarkers(){
@@ -69,13 +72,34 @@ components:{LeftPanel},
     },
     addNpcMarkers(){
         this.npcList.forEach(item=>{
-        const marker = this.L.marker([item.lat,item.lng],{icon:this.L.divIconPlus({iconUrl:'/sucai/markericon/bushou.png',size:18})});
+        let markerIcon=null;
+        if(item.name=="bs"){
+          markerIcon =this.L.divIconPlus({iconUrl:'/sucai/markericon/bushou.png',size:18})
+        }else if(item.name=='tf'){
+          markerIcon =this.L.divIconPlus({iconUrl:'/sucai/markericon/tf.png',size:18})
+        }else if(item.name=='hs'){
+           markerIcon =this.L.divIconPlus({iconUrl:'/sucai/markericon/hd.png',size:18})
+        }
+        const marker = this.L.marker([item.lat,item.lng],{icon:markerIcon});
         marker.on('click',()=>{
           this.openPanel(item)
         })
         marker.addTo(this.markerLayer);
       })
 
+    },
+    addOtherMarkers(){
+      this.otherList.forEach(item=>{
+        let markerIcon = null;
+        if(item.name=="home"){
+          markerIcon =this.L.divIconPlus({iconUrl:'/sucai/markericon/home.png',size:18})
+        }
+        const marker = this.L.marker([item.lat,item.lng],{icon:markerIcon});
+        marker.on('click',()=>{
+          this.openPanel(item)
+        })
+        marker.addTo(this.markerLayer);
+      })
     },
     openPanel(marker){
       if(this.panelContent==null||this.panelContent.id==marker.id){

@@ -1,0 +1,20 @@
+{
+    "name": "dbg2map",
+    "bounds": "0.0,0.0,0.03358800847322891,0.02509892823556267",
+    "crs_wkid": "3857",
+    "crs_wkt": "PROJCS[\"WGS 84 /Pseudo-Mercator\",GEOGCS[\"GCS_WGS_1984\",DATUM[\"D_WGS_1984\",SPHEROID[\"WGS_1984\",6378137.0,298.257223563,AUTHORITY[\"EPSG\",\"7030\"]],AUTHORITY[\"EPSG\",\"6326\"]],PRIMEM[\"Greenwich\",0.0,AUTHORITY[\"EPSG\",\"8901\"]],UNIT[\"DEGREE\",0.017453292519943295],AUTHORITY[\"EPSG\",\"4326\"]],PROJECTION[\"Popular Visualisation Pseudo Mercator\",AUTHORITY[\"EPSG\",\"1024\"]],PARAMETER[\"False_Easting\",0.0],PARAMETER[\"False_Northing\",0.0],PARAMETER[\"Central_Meridian\",0.0],PARAMETER[\"Latitude_Of_Origin\",0.0],PARAMETER[\"Scale_Factor\",1.0],UNIT[\"METER\",1.0],AUTHORITY[\"EPSG\",\"3857\"]]",
+    "tile_height": "256",
+    "tile_width": "256",
+    "resolutions": "611.49622628,305.74811314,152.87405657,76.437028285,38.218514143,19.109257071,9.5546285356,4.7773142678,2.3886571339,1.194328567,0.59716428348",
+    "scales": "4.3268187433027975E-7,8.653637486605595E-7,1.730727497321119E-6,3.461454994642238E-6,6.922909989284476E-6,1.3845819978568952E-5,2.7691639957137904E-5,5.538327991427581E-5,1.1076655982855162E-4,2.2153311965710323E-4,4.4306623931420646E-4",
+    "type": "baselayer",
+    "version": "1.1",
+    "ext_spec_version": "201310",
+    "mapStatusHashCode": "225773205",
+    "description": "dbg2map created on 2022-06-21 15:33:31 by SuperMap iServer",
+    "format": "png",
+    "compatible": "true",
+    "transparent": "false",
+    "axis_origin": "-2.0037508342789244E7,-2.0037508342789244E7",
+    "axis_positive_direction": "RightUp"
+}

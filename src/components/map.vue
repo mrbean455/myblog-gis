@@ -30,7 +30,7 @@ components:{LeftPanel},
     };
   },
   methods: {
-    initMap() {
+    initMap() { 
         //实例化一个地图
       this.map = this.L.map("map", {
       center:this.mapCenter,
@@ -42,8 +42,17 @@ components:{LeftPanel},
       zoomControl:false,
       });
       //设置地图的地图
-      let url = "/dbgmap/dbg2map_225773205_256X256_PNG.mbtiles";
-      this.L.tileLayer.mbTiles(url).addTo(this.map)
+      let url = "http://localhost:3001/dbgmap/dbg2map_225773205_256X256_PNG.mbtiles";
+    const mb =   this.L.tileLayer.mbTilesCORS(url).addTo(this.map);
+    console.log(this.map,'map')
+    console.log(mb,'mb')
+    mb.on('databaseloaded',(ev)=>{
+      console.log(ev,'evOK')
+      mb.addTo(this.map)
+    });
+        mb.on('databaseerror',(ev)=>{
+      console.log(ev,'evError')
+    });
       this.map.setView([0.0116046894120897,0.0116046894120897], 14)
       //将marker图层添加到地图中
       this.markerLayer.addTo(this.map)

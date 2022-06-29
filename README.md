@@ -1,24 +1,4 @@
-# dbg2gis
-
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+2022/06/29
+荒野大镖客2地图服务1.0：
+基于Leaflet+Vue的架构打造的地图服务，并对一些Leaflet的一些Class类进行了封装和Leaflet与Vue的融合。
+目前只提供简单的兴趣点预览服务，后期会根据时间增加新功能来提高可玩性。

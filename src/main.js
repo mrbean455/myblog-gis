@@ -20,6 +20,8 @@ import "./leafletExtends/mbTilesCORS"
 //引入二次封装的axios
 import request from "./utils/request"
 
+import "./style/index.css";
+
 //引入leaflet默认的markerIcon
 // import './Myleaflet/icon'
 //把leaflet挂载到vue实例中，使得在vue中可以使用leaflet

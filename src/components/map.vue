@@ -1,6 +1,7 @@
 <template>
   <div>
-    <div id="map" class="map"></div>
+    <headerMenu @setLocation="setLocation"></headerMenu>
+    <div id="map" class="map" ></div>
     <!-- <el-button @click="addLocation()" class="addLocationBtn">新增位置</el-button> -->
     <div v-if="showPanel">
         <leftPanel :panelInfo="this.panelContent" @closePanel="closePanel()"></leftPanel>
@@ -10,23 +11,29 @@
 </template>
 
 <script>
-import LeftPanel from "./leftpanel.vue";
+import leftPanel from "./leftpanel.vue";
 import PopUpPanel from "./popuppanel/popupPanel.vue"
+import headerMenu from "./header.vue" 
+import geoUtil from "../utils/geoUtil"
 export default {
-components:{LeftPanel},
+components:{leftPanel,headerMenu},
   data() {
     return {
       map: null,
       mapBounds:[[0.024719237514403372,0.00042915344238281255],[0.024719237514403372,0.03334522247314454],[0.0002145767211831047,0.00042915344238281255],[0.0002145767211831047,0.03338813781738282]],
       mapCenter:[0.0116046894120897,0.0116046894120897],
       markerLayer:this.L.layerGroup(),
+      rateMarkerLayer:this.L.layerGroup(),
+      locationMarkerLayer:this.L.layerGroup(),
       pictureList:[],
       npcList:[],
       otherList:[],
+      rateList:[],
       pictureMarkers:null,
       npcMarkers:null,
       showPanel:false,
       panelContent:null,
+      location:null,
     };
   },
   methods: {
@@ -55,9 +62,10 @@ components:{LeftPanel},
   //   });
   let url = "jpg/{z}/{x}/{y}.png"
   this.L.tileLayer(url).addTo(this.map);
-      this.map.setView([0.0116046894120897,0.0116046894120897], 14)
+      this.map.setView([0.0116046894120897,0.0116046894120897], 16)
       //将marker图层添加到地图中
       this.markerLayer.addTo(this.map)
+      this.locationMarkerLayer.addTo(this.map);
       this.loadData();
     },
     async loadData(){
@@ -69,6 +77,11 @@ components:{LeftPanel},
         this.addPictureMarkers()
         this.addNpcMarkers()
         this.addOtherMarkers();
+      })
+    },
+   async  loadRateData(){
+      await this.$request("/map/getratemarkers").then(data=>{
+        this.rateList =data;
       })
     },
     addPictureMarkers(){
@@ -114,7 +127,6 @@ components:{LeftPanel},
     },
     openPanel(marker){
       if(this.panelContent==null||this.panelContent.id==marker.id){
-        console.log(1)
         this.panelContent = this.panelContent==null?marker:null;
         this.showPanel = !this.showPanel;
       }else if(this.panelContent.id!=marker.id){
@@ -142,8 +154,30 @@ components:{LeftPanel},
       })
       this.map.off('click')
       })
-    }
+    },
+    setLocation(){
 
+      const locationMarker = this.L.marker([],{icon:this.L.divIconPlus({size:26,iconUrl:'/sucai/markericon/location.png'})});
+      const moveLocationMarker=(e)=>{
+        locationMarker.setLatLng([e.latlng.lat,e.latlng.lng])
+        locationMarker.addTo(this.locationMarkerLayer)
+      }
+      const comfirmLocation=(e)=>{
+        locationMarker.setLatLng([e.latlng.lat,e.latlng.lng])
+        locationMarker.addTo(this.locationMarkerLayer)
+        this.map.off("mousemove",moveLocationMarker);
+        this.map.off("click",comfirmLocation)
+        this.showMarkerinRanger(locationMarker);
+      }
+      this.map.on('mousemove', moveLocationMarker);
+      this.map.on('click',comfirmLocation);
+  },
+  showMarkerinRanger(locationMarker){
+    // this.loadRateData();
+    console.log(locationMarker.getLatLng(),'000')
+    console.log(this.L.Projection.LonLat.project(locationMarker.getLatLng()),'1111')
+    // geoUtil.calDistance(locationMarker,[0.0116046894120897,0.0116046894120897])
+  }
   },
   mounted() {
     this.initMap();
@@ -154,6 +188,7 @@ components:{LeftPanel},
 </script>
 
 <style lang="less" scoped>
+
 .map{
   position: absolute;
   top: 0%;

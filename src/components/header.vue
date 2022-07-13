@@ -2,7 +2,7 @@
 <template>
   <div class="headerMenu">
     <div class="headerLogo"><span>MRBEAN455</span></div>
-    <div class="headerFunc"><span class="headerBtn" @click="setLocation()">选择位置</span></div>
+    <div class="headerFunc"><span class="headerBtn" @click="setLocation()">{{actived?'重新选择':'选择位置'}}</span></div>
     <div></div>
   </div>
 </template>
@@ -11,13 +11,14 @@
 export default {
   data(){
     return{
+      actived:false,
 
     }
   },
   methods:{
     setLocation(){
-      console.log('cc')
-      this.$emit('setLocation');
+      this.actived = !this.actived;
+      this.$emit('setLocation',this.actived);
     }
   }
 };
@@ -60,7 +61,7 @@ export default {
   background-color: rgba(19, 18, 18, 0.915);
   .headerLogo {
     position: relative;
-    width: 10%;
+    width: fit-content;
     height: 100%;
     font-family: Vemanem;
     padding: 4px;
@@ -78,8 +79,9 @@ export default {
     animation-fill-mode: forwards; //forwards表示当执行完动画以后保持100%动画时的样式
   }
 .headerFunc{
+  margin-left: 8px;
   position: relative;
-  width: 6%;
+  width: fit-content;
   height: 100%;
   text-align: center;
   .headerBtn{

@@ -17,6 +17,10 @@ import './leafletExtends/popupPlus'
 import "./leafletExtends/divIconPlus"
 import "./leafletExtends/mbTilesCORS"
 
+//引入loadsh
+import _  from 'lodash'
+Vue.prototype._ = _;
+
 //引入二次封装的axios
 import request from "./utils/request"
 

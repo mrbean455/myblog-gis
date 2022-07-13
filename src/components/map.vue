@@ -66,11 +66,12 @@ components:{leftPanel,headerMenu},
       //将marker图层添加到地图中
       this.markerLayer.addTo(this.map)
       this.locationMarkerLayer.addTo(this.map);
+      this.rateMarkerLayer.addTo(this.map);
       this.loadData();
+      this.loadRateData();
     },
     async loadData(){
       await this.$request("/map/getallmarkers").then(data=>{
-        console.log(2)
         this.pictureList = data.picture;
         this.npcList =data.npc;
         this.otherList =data.other;
@@ -155,8 +156,8 @@ components:{leftPanel,headerMenu},
       this.map.off('click')
       })
     },
-    setLocation(){
-
+    setLocation(actived){
+      if(actived){
       const locationMarker = this.L.marker([],{icon:this.L.divIconPlus({size:26,iconUrl:'/sucai/markericon/location.png'})});
       const moveLocationMarker=(e)=>{
         locationMarker.setLatLng([e.latlng.lat,e.latlng.lng])
@@ -167,16 +168,28 @@ components:{leftPanel,headerMenu},
         locationMarker.addTo(this.locationMarkerLayer)
         this.map.off("mousemove",moveLocationMarker);
         this.map.off("click",comfirmLocation)
-        this.showMarkerinRanger(locationMarker);
+        this.filterLocationRanger(locationMarker);
       }
       this.map.on('mousemove', moveLocationMarker);
       this.map.on('click',comfirmLocation);
+      }else{
+        this.locationMarkerLayer.clearLayers();
+        this.rateMarkerLayer.clearLayers();
+      }
+
   },
-  showMarkerinRanger(locationMarker){
-    // this.loadRateData();
-    console.log(locationMarker.getLatLng(),'000')
-    console.log(this.L.Projection.LonLat.project(locationMarker.getLatLng()),'1111')
-    // geoUtil.calDistance(locationMarker,[0.0116046894120897,0.0116046894120897])
+  filterLocationRanger(locationMarker){
+    let  rangeMarkers =this._.filter(this.rateList,function(item){
+      let dis =geoUtil.calDistance(locationMarker.getLatLng(),{lat:item.lat,lng:item.lng})
+     return dis<300;
+    })
+    this.showfilterLoationMarkersRanger(rangeMarkers)
+  },
+  showfilterLoationMarkersRanger(rangeMarkers){
+    console.log(rangeMarkers,'r')
+      rangeMarkers.map(item=>{
+        const Marker = this.L.marker([item.lat,item.lng],{icon:this.L.divIconPlus({size:26,iconUrl:'/sucai/markericon/location.png'})}).addTo(this.rateMarkerLayer);
+      })
   }
   },
   mounted() {

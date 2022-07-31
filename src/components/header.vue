@@ -1,8 +1,8 @@
 
 <template>
   <div class="headerMenu">
-    <div class="headerLogo"><span>MRBEAN455</span></div>
-    <div class="headerFunc"><span class="headerBtn" @click="setLocation()">{{actived?'重新选择':'选择位置'}}</span></div>
+    <div class="headerLogo" :title="'前往mrbean455.cn'"><span @click="gotoBlog()">MRBEAN455</span></div>
+    <div class="headerFunc"><span class="headerBtn" @click="setLocation()">{{actived?'取消选择':'选择位置'}}</span></div>
     <div></div>
   </div>
 </template>
@@ -19,6 +19,9 @@ export default {
     setLocation(){
       this.actived = !this.actived;
       this.$emit('setLocation',this.actived);
+    },
+    gotoBlog(){
+      window.open("http://www.mrbean455.cn")
     }
   }
 };

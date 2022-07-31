@@ -1,9 +1,9 @@
 import axios from "axios";
 
 //配置baseURL，这样在写url的时候可以简写
-const baseURL = "http://localhost:8000";
+const baseURL = "http://120.53.107.234:8000";
 //设置超时时间
-const timeout = 500000;
+const timeout = 5000;
 
 //创建实例
 const instance = axios.create({

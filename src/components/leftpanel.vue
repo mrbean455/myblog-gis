@@ -8,7 +8,8 @@
     <div class="panelDetail">
         <div class="info">
             <div v-if="info.type=='npc'">姓名:{{info.name=="bs"?"捕兽人":info.name=="hs"?"黑市商人":info.name=="tf"?"屠夫":""}}</div>
-            <div>类型:{{info.type=='npc'?info.type:info.type=="picture"?"摄影":""}}</div>
+            <div v-else-if="info.type=='rate'">名称：{{info.name}}</div>
+            <div>类型:{{info.type=='npc'?info.type:info.type=="picture"?"摄影":info.type=="rate"?"传说动物":""}}</div>
             <div>介绍:{{info.introduce}}</div>
         </div>
         <div class="location"><span>{{info.location}}</span></div>

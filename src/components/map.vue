@@ -47,6 +47,7 @@ components:{leftPanel,headerMenu},
       minZoom:16,
       maxZoom:18,
       zoomControl:false,
+      attributionControl:false
       });
       //设置地图的地图
   //  let url = "http://localhost:3001/dbgmap/dbg2map_225773205_256X256_PNG.mbtiles";
@@ -68,10 +69,10 @@ components:{leftPanel,headerMenu},
       this.locationMarkerLayer.addTo(this.map);
       this.rateMarkerLayer.addTo(this.map);
       this.loadData();
-      this.loadRateData();
+      this.loadSomeData();
     },
     async loadData(){
-      await this.$request("/map/getallmarkers").then(data=>{
+      await this.$request({url:"/map/getallmarkers",method:"get"}).then(data=>{
         this.pictureList = data.picture;
         this.npcList =data.npc;
         this.otherList =data.other;
@@ -80,9 +81,9 @@ components:{leftPanel,headerMenu},
         this.addOtherMarkers();
       })
     },
-   async  loadRateData(){
-      await this.$request("/map/getratemarkers").then(data=>{
-        this.rateList =data;
+   async  loadSomeData(){
+      await this.$request({url:"/map/getsomemarkers",method:'GET',params:{type:'rate'}}).then(data=>{
+       this.rateList = data.rate;
       })
     },
     addPictureMarkers(){
@@ -186,9 +187,11 @@ components:{leftPanel,headerMenu},
     this.showfilterLoationMarkersRanger(rangeMarkers)
   },
   showfilterLoationMarkersRanger(rangeMarkers){
-    console.log(rangeMarkers,'r')
       rangeMarkers.map(item=>{
-        const Marker = this.L.marker([item.lat,item.lng],{icon:this.L.divIconPlus({size:26,iconUrl:'/sucai/markericon/location.png'})}).addTo(this.rateMarkerLayer);
+        const Marker = this.L.marker([item.lat,item.lng],{icon:this.L.divIconPlus({size:26,iconUrl:'/sucai/markericon/rateanimal.png',background:"#000"})}).addTo(this.rateMarkerLayer);
+        Marker.on('click',()=>{
+          this.openPanel(item)
+        })
       })
   }
   },
